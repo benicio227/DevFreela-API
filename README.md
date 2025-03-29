@@ -14,12 +14,15 @@ O projeto é composto por uma **Solution** chamada **DevFreela** e contém os se
     - **ProjectsController**: Controla as operações relacionadas aos projetos (CRUD, comentários, iniciar e completar projetos).
     - **SkillsController**: Controla as operações relacionadas às habilidades dos usuários.
     - **UsersController**: Controla as operações relacionadas aos usuários, como upload de foto de perfil.
+  
   - **ExceptionHandler**: Contém a classe **ApiExceptionHandler** que gerencia erros e exceções.
+    
   - **Models**: Contém os modelos de dados utilizados nas requisições e respostas da API.
     - **CreateProjectInputModel**: Define o modelo para criação de um novo projeto.
     - **CreateProjectCommentInputModel**: Define o modelo para criação de um comentário de projeto.
     - **FreelanceTotalCostConfig**: Define os valores mínimos e máximos de custo de um projeto.
     - **UpdateProjectInputModel**: Define o modelo para atualizar um projeto.
+      
   - **Services**: Contém a interface **IConfigService**, que é responsável pela configuração de custos de freelancer.
 
 ## Funcionalidades
