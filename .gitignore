@@ -1,0 +1,39 @@
+# Ignorar diretórios de build e temporários
+bin/
+obj/
+.vs/
+**/logs/
+**/*.log
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de dependências gerados automaticamente
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.csproj.user
+project.lock.json
+project.assets.json
+package-lock.json
+
+# Ignorar arquivos de configuração local
+appsettings.Development.json
+secrets.json
+
+# Ignorar arquivos gerados por ferramentas do Visual Studio
+*.vscode/
+.idea/
+*.bak
+*.swp
+*.sln.cache
+
+# Ignorar arquivos de publicação e pacotes
+publish/
+wwwroot/
+node_modules/
+dist/
+out/
+*.zip
+*.tar.gz
+*.7z
