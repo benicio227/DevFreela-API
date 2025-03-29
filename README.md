@@ -62,7 +62,7 @@ O projeto é composto por uma **Solution** chamada **DevFreela** e contém os se
 
 1. Clone o repositório:
     ```bash
-    git clone https://github.com/usuario/DevFreela.git
+    git@github.com:benicio227/DevFreela-API.git
     ```
 
 2. Navegue até o diretório do projeto:
@@ -80,7 +80,7 @@ O projeto é composto por uma **Solution** chamada **DevFreela** e contém os se
     dotnet run
     ```
 
-A API estará disponível em `http://localhost:5000`.
+A API estará disponível em `https://localhost:7193`.
 
 ## Contribuições
 
