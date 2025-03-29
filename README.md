@@ -65,7 +65,7 @@ O projeto é composto por uma **Solution** chamada **DevFreela** e contém os se
 
 1. Clone o repositório:
     ```bash
-    git@github.com:benicio227/DevFreela-API.git
+    git clone git@github.com:benicio227/DevFreela-API.git
     ```
 
 2. Navegue até o diretório do projeto:
