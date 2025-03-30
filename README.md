@@ -93,6 +93,6 @@ Sinta-se à vontade para fazer fork do repositório, submeter pull requests e co
 
 Este projeto está licenciado sob a **MIT License**.
 
-## IMAGEM-SWAGGER
+### IMAGEM-SWAGGER
 
 ![Swagger Screenshot](https://github.com/benicio227/DevFreela-API/blob/master/Imagem-DevFreela.png?raw=true)
