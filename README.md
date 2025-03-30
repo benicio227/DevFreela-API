@@ -93,6 +93,8 @@ Sinta-se à vontade para fazer fork do repositório, submeter pull requests e co
 
 Este projeto está licenciado sob a **MIT License**.
 
-### IMAGEM-SWAGGER
+### Swagger Interface
 
 ![Swagger Screenshot](https://github.com/benicio227/DevFreela-API/blob/master/Imagem-DevFreela.png?raw=true)
+
+A imagem acima mostra a interface do Swagger para testar os endpoints da API.
