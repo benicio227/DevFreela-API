@@ -87,7 +87,13 @@ A API estará disponível em `https://localhost:7193`.
 
 ## Contribuições
 
-Sinta-se à vontade para fazer fork do repositório, submeter pull requests e contribuir para o projeto. Toda contribuição é bem-vinda!
+Para contribuir com o projeto DevFreela, siga os seguintes passos abaixo:
+
+1. Faça um fork do projeto.
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
+3. Commit suas mudanças (`git commit -m 'Adicionando nova feature'`).
+4. Push para a branch (`git push origin feature/nova-feature`).
+5. Abra um Pull Request.
 
 ## Licença
 
