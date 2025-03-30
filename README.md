@@ -95,12 +95,12 @@ Para contribuir com o projeto DevFreela, siga os seguintes passos abaixo:
 4. Push para a branch (`git push origin feature/nova-feature`).
 5. Abra um Pull Request.
 
-## Licença
-
-Este projeto está licenciado sob a **MIT License**.
-
 ### Swagger Interface
 
 ![Swagger Screenshot](https://github.com/benicio227/DevFreela-API/blob/master/Imagem-DevFreela.png?raw=true)
 
 A imagem acima mostra a interface do Swagger para testar os endpoints da API.
+
+## Licença
+
+Este projeto está licenciado sob a **MIT License**.
