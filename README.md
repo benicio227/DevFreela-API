@@ -1,4 +1,4 @@
-# DevFreela
+# Sobre o projeto
 
 O **DevFreela** é uma API para gerenciamento de freelancers e projetos. Ela permite que os usuários gerenciem suas informações, projetos, habilidades e comentários de forma simples e eficiente.
 
