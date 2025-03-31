@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevFreela.API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers;
 
@@ -8,7 +9,7 @@ public class UsersController : ControllerBase
 {
     // POST api/users
     [HttpPost]
-    public IActionResult Post()
+    public IActionResult Post(CreateUserInputModel model)
     {
         return Ok();
     }
