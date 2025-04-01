@@ -1,34 +1,58 @@
-﻿using DevFreela.API.Models;
+﻿using DevFreela.API.Entities;
+using DevFreela.API.Models;
+using DevFreela.API.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.API.Controllers;
 [Route("api/projects")]
 [ApiController]
 public class ProjectsController : ControllerBase
 {
-    public ProjectsController()
+    private readonly DevFreelaDbContext _context;
+    public ProjectsController(DevFreelaDbContext context)
     {
-
+        _context = context;
     }
 
     // GET api/projects?search=crm
     [HttpGet]
     public IActionResult Get(string search = "")
     {
-        return Ok();
+        var projects = _context.Projects
+            .Include(p => p.Client)
+            .Include(p => p.Freelancer)
+            .Where(p => !p.IsDeleted).ToList();
+
+        var model = projects.Select(ProjectItemViewModel.FromEntity).ToList();
+
+        return Ok(model);
     }
 
     // GET api/projects/1234
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        return Ok();
+        var project = _context.Projects
+            .Include(p => p.Client)
+            .Include(p => p.Freelancer)
+            .Include(p => p.Comments)
+            .SingleOrDefault(p => p.Id == id);
+
+        var model = ProjectItemViewModel.FromEntity(project);
+
+        return Ok(model);
     }
 
     // POST api/projects
     [HttpPost]
     public IActionResult Post(CreateProjectInputModel model)
     {
+        var project = model.ToEntity();
+
+        _context.Projects.Add(project);
+        _context.SaveChanges();
+
         return CreatedAtAction(nameof(GetById), new { id = 1}, model);
     }
 
@@ -44,6 +68,18 @@ public class ProjectsController : ControllerBase
     [HttpPut("{id}")] // O id que passamos aqui na URL é por conta da convenção do padrão REST
     public IActionResult Put(int id, UpdateProjectInputModel model)
     {
+        var projects = _context.Projects.SingleOrDefault(p => p.Id == id);
+
+        if (projects is null)
+        {
+            return NotFound();
+        }
+
+        projects.Update(model.Title, model.Description, model.TotalCost);
+
+        _context.Projects.Update(projects);
+        _context.SaveChanges();
+
         return NoContent();
     }
 
@@ -51,6 +87,17 @@ public class ProjectsController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
+        var project = _context.Projects.SingleOrDefault(p => p.Id == id);
+
+        if (project is null)
+        {
+            return NotFound();
+        }
+
+        project.SetAsDeleted();
+        _context.Projects.Update(project);
+        _context.SaveChanges();
+
         return NoContent();
     }
 
@@ -58,6 +105,13 @@ public class ProjectsController : ControllerBase
     [HttpPut("{id}/start")]
     public IActionResult Start(int id)
     {
+        var projects = _context.Projects.SingleOrDefault(p => p.Id == id);
+
+        if (projects is null)
+        {
+            return NotFound();
+        }
+
         return NoContent();
     }
 
@@ -65,6 +119,17 @@ public class ProjectsController : ControllerBase
     [HttpPut("{id}/complete")]
     public IActionResult Complete(int id)
     {
+        var project = _context.Projects.SingleOrDefault(p => p.Id == id);
+
+        if (project is null)
+        {
+            return NotFound();
+        }
+
+        project.Complete();
+        _context.Projects.Update(project);
+        _context.SaveChanges();
+
         return NoContent();
     }
 
@@ -72,6 +137,18 @@ public class ProjectsController : ControllerBase
     [HttpPost("{id}/comments")]
     public IActionResult PostComment(int id, CreateProjectCommentInputModel model)
     {
+        var projects = _context.Projects.SingleOrDefault(p => p.Id == id);
+
+        if (projects is null)
+        {
+            return NotFound();
+        }
+
+        var comment = new ProjectComment(model.Content, model.IdProject, model.IdUser);
+
+        _context.ProjectComments.Add(comment);
+        _context.SaveChanges();
+
         return Ok();
     }
 }
