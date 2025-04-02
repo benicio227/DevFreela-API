@@ -22,7 +22,7 @@ public class ProjectsController : ControllerBase
         var projects = _context.Projects
             .Include(p => p.Client)
             .Include(p => p.Freelancer)
-            .Where(p => !p.IsDeleted).ToList();
+            .Where(p => !p.IsDeleted && search == "" || p.Title.Contains(search) || p.Description.Contains(search)).ToList();
 
         var model = projects.Select(ProjectItemViewModel.FromEntity).ToList();
 
@@ -39,7 +39,7 @@ public class ProjectsController : ControllerBase
             .Include(p => p.Comments)
             .SingleOrDefault(p => p.Id == id);
 
-        var model = ProjectItemViewModel.FromEntity(project);
+        var model = ProjectViewModel.FromEntity(project);
 
         return Ok(model);
     }
