@@ -1,19 +1,11 @@
 using DevFreela.API.ExceptionHandler;
-using DevFreela.API.Models;
-using DevFreela.API.Persistence;
-using DevFreela.API.Services;
+using DevFreela.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.Configure<FreelanceTotalCostConfig>(
-    builder.Configuration.GetSection("FreelanceTotalCostConfig")
-);
-
-builder.Services.AddSingleton<IConfigService, ConfigService>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("DevFreelaCs");

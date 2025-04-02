@@ -1,4 +1,4 @@
-﻿namespace DevFreela.API.Entities;
+﻿namespace DevFreela.Core.Entities;
 
 // Essa é uma classe Base que terá algumas propriedades que serão usadas pelas outras classes
 // Uso ela como abstract já que não vou instanciar essa classe em nenhum ligar
