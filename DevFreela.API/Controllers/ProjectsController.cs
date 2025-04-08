@@ -1,8 +1,7 @@
 ﻿using DevFreela.Application.Models;
-using DevFreela.Core.Entities;
+using DevFreela.Application.Services;
 using DevFreela.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.API.Controllers;
 [Route("api/projects")]
@@ -10,53 +9,43 @@ namespace DevFreela.API.Controllers;
 public class ProjectsController : ControllerBase
 {
     private readonly DevFreelaDbContext _context;
-    public ProjectsController(DevFreelaDbContext context)
+    private readonly IProjectService _service;
+    public ProjectsController(DevFreelaDbContext context, IProjectService service)
     {
         _context = context;
+        _service = service;
     }
 
     // GET api/projects?search=crm
     [HttpGet]
-    public IActionResult Get(string search = "", int page = 0, int size = 3)
+    public IActionResult Get(string search = "")
     {
-        var projects = _context.Projects
-            .Include(p => p.Client)
-            .Include(p => p.Freelancer)
-            .Where(p => !p.IsDeleted && search == "" || p.Title.Contains(search) || p.Description.Contains(search)).ToList()
-            .Skip(page * size)
-            .Take(size)
-            .ToList();
+        var result = _service.GetAll();
 
-        var model = projects.Select(ProjectItemViewModel.FromEntity).ToList();
-
-        return Ok(model);
+        return Ok(result);
     }
 
     // GET api/projects/1234
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var project = _context.Projects
-            .Include(p => p.Client)
-            .Include(p => p.Freelancer)
-            .Include(p => p.Comments)
-            .SingleOrDefault(p => p.Id == id);
+        var result = _service.GetById(id);
 
-        var model = ProjectViewModel.FromEntity(project);
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
 
-        return Ok(model);
+        return Ok(result);
     }
 
     // POST api/projects
     [HttpPost]
     public IActionResult Post(CreateProjectInputModel model)
     {
-        var project = model.ToEntity();
+        var result = _service.Insert(model);
 
-        _context.Projects.Add(project);
-        _context.SaveChanges();
-
-        return CreatedAtAction(nameof(GetById), new { id = 1}, model);
+        return CreatedAtAction(nameof(GetById), new { id = result.Data}, model);
     }
 
     // PUT api/projects/1234
@@ -71,17 +60,12 @@ public class ProjectsController : ControllerBase
     [HttpPut("{id}")] // O id que passamos aqui na URL é por conta da convenção do padrão REST
     public IActionResult Put(int id, UpdateProjectInputModel model)
     {
-        var projects = _context.Projects.SingleOrDefault(p => p.Id == id);
+        var result = _service.Update(model);
 
-        if (projects is null)
+        if (!result.IsSuccess)
         {
-            return NotFound();
+            return BadRequest(result.Message);
         }
-
-        projects.Update(model.Title, model.Description, model.TotalCost);
-
-        _context.Projects.Update(projects);
-        _context.SaveChanges();
 
         return NoContent();
     }
@@ -90,16 +74,12 @@ public class ProjectsController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var project = _context.Projects.SingleOrDefault(p => p.Id == id);
+        var result = _service.Delete(id);
 
-        if (project is null)
+        if (!result.IsSuccess)
         {
-            return NotFound();
+            return BadRequest(result.Message);
         }
-
-        project.SetAsDeleted();
-        _context.Projects.Update(project);
-        _context.SaveChanges();
 
         return NoContent();
     }
@@ -108,11 +88,11 @@ public class ProjectsController : ControllerBase
     [HttpPut("{id}/start")]
     public IActionResult Start(int id)
     {
-        var projects = _context.Projects.SingleOrDefault(p => p.Id == id);
+        var result = _service.Start(id);
 
-        if (projects is null)
+        if (!result.IsSuccess)
         {
-            return NotFound();
+            return BadRequest(result.Message);
         }
 
         return NoContent();
@@ -122,16 +102,12 @@ public class ProjectsController : ControllerBase
     [HttpPut("{id}/complete")]
     public IActionResult Complete(int id)
     {
-        var project = _context.Projects.SingleOrDefault(p => p.Id == id);
+        var result = _service.Complete(id);
 
-        if (project is null)
+        if (!result.IsSuccess)
         {
-            return NotFound();
+            return BadRequest(result.Message);
         }
-
-        project.Complete();
-        _context.Projects.Update(project);
-        _context.SaveChanges();
 
         return NoContent();
     }
@@ -140,17 +116,12 @@ public class ProjectsController : ControllerBase
     [HttpPost("{id}/comments")]
     public IActionResult PostComment(int id, CreateProjectCommentInputModel model)
     {
-        var projects = _context.Projects.SingleOrDefault(p => p.Id == id);
+        var result = _service.InsertComment(id, model);
 
-        if (projects is null)
+        if (!result.IsSuccess)
         {
-            return NotFound();
+            return BadRequest(result.Message);
         }
-
-        var comment = new ProjectComment(model.Content, model.IdProject, model.IdUser);
-
-        _context.ProjectComments.Add(comment);
-        _context.SaveChanges();
 
         return Ok();
     }
