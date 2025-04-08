@@ -17,6 +17,7 @@ public static class ApplicationModule // classe estatica, não pode ser instanci
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<IUserService, UserService>();
 
         return services;
     }
