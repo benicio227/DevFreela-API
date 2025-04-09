@@ -1,9 +1,4 @@
-﻿using Azure;
-using DevFreela.Application.Models;
-using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-using System.Drawing;
+﻿using DevFreela.Application.Models;
 
 namespace DevFreela.Application.Services;
 public interface IProjectService

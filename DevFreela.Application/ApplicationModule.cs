@@ -1,4 +1,5 @@
-﻿using DevFreela.Application.Services;
+﻿using DevFreela.Application.Commands.InsertProject;
+using DevFreela.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DevFreela.Application;
@@ -10,6 +11,7 @@ public static class ApplicationModule // classe estatica, não pode ser instanci
     {
         services.AddServices(); // Chamamos o método AddServices para registrar os serviços na injeção de
                                 // dependência
+        services.AddHandlers();
 
         return services;
     }
@@ -18,8 +20,14 @@ public static class ApplicationModule // classe estatica, não pode ser instanci
     {
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ISkillService, SkillService>();
 
         return services;
+    }
+
+    private static IServiceCollection AddHandlers(this IServiceCollection services)
+    {
+        return services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<InsertProjectCommand>());
     }
 }
 
