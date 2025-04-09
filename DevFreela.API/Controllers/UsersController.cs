@@ -1,5 +1,8 @@
-﻿using DevFreela.Application.Models;
+﻿using DevFreela.Application.Commands.UserFolder.InsertSkill;
+using DevFreela.Application.Commands.UserFolder.InsertUser;
+using DevFreela.Application.Models;
 using DevFreela.Application.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers;
@@ -9,9 +12,11 @@ namespace DevFreela.API.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _service;
-    public UsersController(IUserService service)
+    private readonly IMediator _mediator;
+    public UsersController(IUserService service, IMediator mediator)
     {
         _service = service;
+        _mediator = mediator;
     }
 
     [HttpGet("{id}")]
@@ -29,17 +34,20 @@ public class UsersController : ControllerBase
 
     // POST api/users
     [HttpPost]
-    public IActionResult Post(CreateUserInputModel model)
+    public async Task<IActionResult> Post(InsertUserCommand command)
     {
-        var result = _service.Insert(model);
+        //var result = _service.Insert(model);
+        var result = await _mediator.Send(command);
 
-        return CreatedAtAction(nameof(GetById), new { Id = result.Data, model});
+        return CreatedAtAction(nameof(GetById), new { Id = result.Data, command});
     }
 
     [HttpPost("{id}/skills")]
-    public IActionResult PostSkills(int id, UserSkillsInputModel model)
+    public async Task<IActionResult> PostSkills(int id, InsertSkillCommand command)
     {
-        var result = _service.InsertSkill(id, model);
+        //var result = _service.InsertSkill(id, model);
+
+        var result = await _mediator.Send(new InsertSkillCommand(id));
 
         if (!result.IsSuccess)
         {
