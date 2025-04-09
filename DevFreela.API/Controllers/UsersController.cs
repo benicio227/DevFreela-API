@@ -42,7 +42,7 @@ public class UsersController : ControllerBase
         //var result = _service.Insert(model);
         var result = await _mediator.Send(command);
 
-        return CreatedAtAction(nameof(GetById), new { Id = result.Data, command});
+        return CreatedAtAction(nameof(GetById), new { id = result.Data }, result);
     }
 
     [HttpPost("{id}/skills")]
@@ -50,7 +50,7 @@ public class UsersController : ControllerBase
     {
         //var result = _service.InsertSkill(id, model);
 
-        var result = await _mediator.Send(new InsertSkillCommand(id));
+        var result = await _mediator.Send(command);
 
         if (!result.IsSuccess)
         {

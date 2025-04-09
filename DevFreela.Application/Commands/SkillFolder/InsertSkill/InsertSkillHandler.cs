@@ -3,7 +3,7 @@ using DevFreela.Infrastructure.Persistence;
 using MediatR;
 
 namespace DevFreela.Application.Commands.SkillFolder.InsertSkill;
-public class InsertSkillHandler : IRequestHandler<InsertSkillCommand, ResultViewModel<int>>
+public class InsertSkillHandler : IRequestHandler<CreateSkillInputModel, ResultViewModel<int>>
 {
     private readonly DevFreelaDbContext _context;
 
@@ -11,7 +11,7 @@ public class InsertSkillHandler : IRequestHandler<InsertSkillCommand, ResultView
     {
         _context = context;
     }
-    public async Task<ResultViewModel<int>> Handle(InsertSkillCommand request, CancellationToken cancellationToken)
+    public async Task<ResultViewModel<int>> Handle(CreateSkillInputModel request, CancellationToken cancellationToken)
     {
         var skill = request.ToEntity();
 

@@ -31,7 +31,7 @@ public class ProjectsController : ControllerBase
 
         var query = new GetAllProjectsQuery();
 
-        var result = _mediator.Send(query);
+        var result = await _mediator.Send(query);
 
         return Ok(result);
     }

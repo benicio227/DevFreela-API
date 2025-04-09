@@ -14,7 +14,7 @@ public class InsertSkillHandler : IRequestHandler<InsertSkillCommand, ResultView
     }
     public async Task<ResultViewModel<UserSkillsInputModel>> Handle(InsertSkillCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Skills.SingleOrDefaultAsync(u => u.Id == request.Id);
+        var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == request.Id);
 
         if (user is null)
         {
@@ -23,7 +23,7 @@ public class InsertSkillHandler : IRequestHandler<InsertSkillCommand, ResultView
 
         foreach (var skillId in request.SkillsIds)
         {
-            var skill = _context.Skills.SingleOrDefault(s => s.Id == skillId);
+            var skill = await _context.Skills.SingleOrDefaultAsync(s => s.Id == skillId);
 
             if (skill is null)
             {
@@ -32,10 +32,10 @@ public class InsertSkillHandler : IRequestHandler<InsertSkillCommand, ResultView
 
             var userSkill = new UserSkill(request.Id, skillId);
 
-            _context.UserSkills.Add(userSkill);
+            await _context.UserSkills.AddAsync(userSkill);
         }
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return (ResultViewModel<UserSkillsInputModel>)ResultViewModel.Success();
     }
