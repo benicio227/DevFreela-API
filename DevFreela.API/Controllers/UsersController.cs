@@ -1,6 +1,7 @@
 ﻿using DevFreela.Application.Commands.UserFolder.InsertSkill;
 using DevFreela.Application.Commands.UserFolder.InsertUser;
 using DevFreela.Application.Models;
+using DevFreela.Application.Queries.GetUserById;
 using DevFreela.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,11 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var result = _service.GetById(id);
+        //var result = _service.GetById(id);
+
+        var result = await _mediator.Send(new GetUserByIdQuery(id));
 
         if (!result.IsSuccess)
         {
