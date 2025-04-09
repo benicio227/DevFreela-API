@@ -1,16 +1,14 @@
-﻿using DevFreela.Application.Commands.CompleteProject;
-using DevFreela.Application.Commands.DeleteProject;
-using DevFreela.Application.Commands.InserComment;
-using DevFreela.Application.Commands.InsertProject;
-using DevFreela.Application.Commands.StartProject;
-using DevFreela.Application.Commands.UpdateProject;
-using DevFreela.Application.Models;
+﻿using DevFreela.Application.Commands.Project.CompleteProject;
+using DevFreela.Application.Commands.Project.DeleteProject;
+using DevFreela.Application.Commands.Project.InserComment;
+using DevFreela.Application.Commands.Project.StartProject;
+using DevFreela.Application.Commands.Project.UpdateProject;
+using DevFreela.Application.Commands.ProjectFolder.InsertProject;
 using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Application.Queries.GetProjectById;
 using DevFreela.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace DevFreela.API.Controllers;
 [Route("api/projects")]

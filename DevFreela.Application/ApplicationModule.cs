@@ -1,4 +1,4 @@
-﻿using DevFreela.Application.Commands.Project.InsertProject;
+﻿using DevFreela.Application.Commands.ProjectFolder.InsertProject;
 using DevFreela.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
