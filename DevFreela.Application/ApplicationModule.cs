@@ -1,6 +1,5 @@
 ﻿using DevFreela.Application.Commands.ProjectFolder.InsertProject;
 using DevFreela.Application.Models;
-using DevFreela.Application.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,21 +10,11 @@ public static class ApplicationModule // classe estatica, não pode ser instanci
     // O método AddApplication é um método de extensão para IServiceCoolection, o que significa que pode
     // ser chamado diretamente em services dentro de Program.cs
     {
-        services.AddServices(); // Chamamos o método AddServices para registrar os serviços na injeção de
-                                // dependência
         services.AddHandlers();
 
         return services;
     }
 
-    private static IServiceCollection AddServices(this IServiceCollection services)
-    {
-        services.AddScoped<IProjectService, ProjectService>();
-        services.AddScoped<IUserService, UserService>();
-        services.AddScoped<ISkillService, SkillService>();
-
-        return services;
-    }
 
     private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
