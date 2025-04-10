@@ -1,5 +1,7 @@
 ﻿using DevFreela.Application.Commands.ProjectFolder.InsertProject;
+using DevFreela.Application.Models;
 using DevFreela.Application.Services;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DevFreela.Application;
@@ -27,7 +29,11 @@ public static class ApplicationModule // classe estatica, não pode ser instanci
 
     private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
-        return services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<InsertProjectCommand>());
+        services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<InsertProjectCommand>());
+
+        services.AddTransient<IPipelineBehavior<InsertProjectCommand, ResultViewModel<int>>, ValidateInsertProjectCommandBehavior>();
+
+        return services;
     }
 }
 
