@@ -1,22 +1,21 @@
 ﻿using DevFreela.Application.Models;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using MediatR;
 
 namespace DevFreela.Application.Commands.SkillFolder.InsertSkill;
 public class InsertSkillHandler : IRequestHandler<CreateSkillInputModel, ResultViewModel<int>>
 {
-    private readonly DevFreelaDbContext _context;
+    private readonly ISkillRepository _repository;
 
-    public InsertSkillHandler(DevFreelaDbContext context)
+    public InsertSkillHandler(ISkillRepository repository)
     {
-        _context = context;
+        _repository = repository;
     }
     public async Task<ResultViewModel<int>> Handle(CreateSkillInputModel request, CancellationToken cancellationToken)
     {
         var skill = request.ToEntity();
 
-        await _context.Skills.AddAsync(skill);
-        await _context.SaveChangesAsync();
+        await _repository.Add(skill);
 
         return ResultViewModel<int>.Success(skill.Id);
     }
