@@ -1,6 +1,7 @@
 ﻿using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Infrastructure.Repositories;
 public class SkillRepository : ISkillRepository
@@ -18,9 +19,11 @@ public class SkillRepository : ISkillRepository
         return skill.Id;
     }
 
-    public Task<List<Skill>> GetAll()
+    public async Task<List<Skill>> GetAll()
     {
-        throw new NotImplementedException();
+        var skills = await _context.Skills.ToListAsync();
+
+        return skills;
     }
 
     public Task<Skill?> GetById(int id)
