@@ -49,11 +49,9 @@ public class ProjectsController : ControllerBase
         return Ok(result);
     }
 
-    // POST api/projects
     [HttpPost]
     public async Task<IActionResult> Post(InsertProjectCommand command)
     {
-        //var result = _service.Insert(model);
 
         var result = await _mediator.Send(command);
 
@@ -65,19 +63,11 @@ public class ProjectsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = result.Data}, command);
     }
 
-    // PUT api/projects/1234
 
-    // OBS: Veja que não reutilizamos o model CreateProjectInputModel no método Put.
-    // OBS: Classes diferentes requerem Modelos(model) diferentes. Isso é uma boa prática.
-    // OBS: Digamos que queremos mudar a propriedade TotalCost depois de algum tempo, então
-    // precisaríamos usar um if, e isso não é bom
-    // "Classes diferentes tem que serem alteradas por motivos específicos diferentes. Não podemos ficar
-    // alterando a mesma classe por razões diferentes"
-
-    [HttpPut("{id}")] // O id que passamos aqui na URL é por conta da convenção do padrão REST
+    [HttpPut("{id}")] 
     public async Task<IActionResult> Put(int id, UpdateProjectCommand command)
     {
-        //var result = _service.Update(command);
+   
 
         var result = await _mediator.Send(command);
 
